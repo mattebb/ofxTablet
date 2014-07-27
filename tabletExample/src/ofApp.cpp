@@ -26,6 +26,10 @@ void ofApp::draw(){
     ofColor c;
     ofSetColor( c );
     ofFill();
+    TabletData& data = ofxTablet::tabletData;
+    ofTranslate(400,400);
+    ofRotate(data.tilt[0]*60);
+
     ofRect( 20, 20, 100, 100 );
 }
 

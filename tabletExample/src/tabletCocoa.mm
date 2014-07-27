@@ -23,6 +23,7 @@ void setupTabletCocoa(TabletData &data) {
                 
                 //NSLog(@"tablet pt, tilt %f \n", [event tilt].x);
                 NSLog(@"setup tablet DATA pt, tilt %f \n", data.tilt[0]);
+                data.update();
                 break;
         }
         return event;
