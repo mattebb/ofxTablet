@@ -9,7 +9,20 @@ void ofApp::setup(){
     
     // if you want to get data events, you can add a listener to ofxTablet::tabletEvent
 	ofAddListener(ofxTablet::tabletEvent, this, &ofApp::tabletMoved);
+
     
+    // this uses depth information for occlusion
+	// rather than always drawing things on top of each other
+	ofEnableDepthTest();
+	
+	// ofBox uses texture coordinates from 0-1, so you can load whatever
+	// sized images you want and still use them to texture your box
+	// but we have to explicitly normalize our tex coords here
+	ofEnableNormalizedTexCoords();
+    
+	// loads the OF logo from disk
+	ofLogo.loadImage("of.png");
+
 }
 
 //--------------------------------------------------------------
@@ -26,11 +39,20 @@ void ofApp::draw(){
     ofColor c;
     ofSetColor( c );
     ofFill();
+    
     TabletData& data = ofxTablet::tabletData;
     ofTranslate(400,400);
-    ofRotate(data.tilt[0]*60);
+    ofRotateX(data.tilt[1]*70);
+    ofRotateY(data.tilt[0]*70);
+    float sca=(data.pressure*5);
+    if (sca<1) sca = 1;
+    ofScale(sca,sca,sca);
 
-    ofRect( 20, 20, 100, 100 );
+    ofLogo.bind();
+    ofFill();
+    ofSetColor(255);
+    ofDrawBox(100);
+    ofLogo.unbind();
 }
 
 
@@ -47,12 +69,9 @@ void ofApp::keyReleased(int key){
 // get data as soon as it comes in
 void ofApp::tabletMoved(TabletData &data) {
 	// this would be a good place to get data from multiple devices
-	//cout << data.getButton(0) << " " << data.getButton(1) << endl;
-    cout << "tabletMoved tilt " << data.tilt[0];
 	
-	// use the button state to set the LED
-	//ofxConnexion::setLed(data.getButton(0) || data.getButton(1));
-} 
+    //cout << "tabletMoved tilt " << data.tilt[0];
+}
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y){
