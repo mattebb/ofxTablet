@@ -37,12 +37,12 @@ void setupTabletCocoa(TabletData &data) {
 void handlePoint(TabletData &data, NSEvent *event) {
 
     NSRect frame = [[NSScreen mainScreen] frame];
-    data.absScreen[0] = [NSEvent mouseLocation].x / (frame.size.width);
-    data.absScreen[1] = (frame.size.height - [NSEvent mouseLocation].y) / (frame.size.height);
+    data.abs_screen[0] = [NSEvent mouseLocation].x / (frame.size.width);
+    data.abs_screen[1] = [NSEvent mouseLocation].y / (frame.size.height);
     
     data.pressure = [event pressure];
-    data.tilt[0] = [event tilt].x;
-    data.tilt[1] = [event tilt].y;
+    data.tiltX = [event tilt].x;
+    data.tiltY = [event tilt].y;
     data.rotation = [event rotation];
     data.tangentialPressure = [event tangentialPressure];
 }
@@ -50,6 +50,8 @@ void handlePoint(TabletData &data, NSEvent *event) {
 void handleProximity(TabletData &data, NSEvent *event) {
     if ([event isEnteringProximity])
         data.in_proximity = TRUE;
+    else
+        data.in_proximity = FALSE;
     
     data.pointerType = [event pointingDeviceType];
     data.pointerID = [event pointingDeviceID];

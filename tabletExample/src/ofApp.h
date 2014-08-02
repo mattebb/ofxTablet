@@ -21,6 +21,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-        ofImage ofLogo; // the OF logo
         ofLight light; // creates a light and enables lighting
+        ofCamera cam;
+    
+        ofMatrix4x4 tabmtx;
+        float gridsize;
 };

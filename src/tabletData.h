@@ -8,13 +8,12 @@
 
 class TabletData {
 public:
-    // absolute floating point location relative to main screen in (0,1)
-    float absScreen[2];
-    
+    // from driver
     int absX;
     int absY;
     int absZ;
-    float tilt[2];
+    float tiltX;          // 2d projection of normalized 3d vector on to ground plane, from driver
+    float tiltY;
     float pressure;
     float rotation;
     float tangentialPressure;
@@ -22,11 +21,15 @@ public:
     // from proximity events
     bool in_proximity;
     int pointerType;
-    int pointerID;      // index of the device on this tablet
-    int deviceID;       // used to match pointer events with proximity events
+    int pointerID;          // index of the device on this tablet
+    int deviceID;           // used to match pointer events with proximity events
     
     int vendorID;
     int vendorPointerType;
+    
+    // custom for ofxTablet
+    float abs_screen[2];    // absolute floating point location relative to main screen in (0,1)
+    float tilt_vec[3];      // reconstructed 3d vector representing pen tilt
     
     // update global tablet data for use in openFrameworks, implemented in ofxTablet.cpp
     void update();

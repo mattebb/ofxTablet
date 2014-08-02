@@ -4,56 +4,63 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofBackground(0,0,0);
+    ofBackground(10,10,10);
+    ofEnableDepthTest();
+    light.setPosition(100, -50, 100);
+    
+    cam.move(0,-600,200);
+    cam.lookAt(ofVec3f(0,0,0));
+    
+    tabmtx = ofMatrix4x4::newIdentityMatrix();
+    gridsize = 500;
+    
     ofxTablet::start();
     
     // if you want to get data events, you can add a listener to ofxTablet::tabletEvent
 	ofAddListener(ofxTablet::tabletEvent, this, &ofApp::tabletMoved);
-
-    
-    // this uses depth information for occlusion
-	// rather than always drawing things on top of each other
-	ofEnableDepthTest();
-	
-	// ofBox uses texture coordinates from 0-1, so you can load whatever
-	// sized images you want and still use them to texture your box
-	// but we have to explicitly normalize our tex coords here
-	ofEnableNormalizedTexCoords();
-    
-	// loads the OF logo from disk
-	ofLogo.loadImage("of.png");
-
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    // get the most recent data
-	//TabletData& data = ofxTablet::tabletData;
-    //cout << "update tilt " << data.tilt[0] << endl;
+ 
 
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofColor c;
-    ofSetColor( c );
-    ofFill();
+    float gridsize = 500;
     
+    cam.begin();
+    
+    ofDrawGrid(gridsize/2.0, 8.0f, false, false, false, true);
+    
+    ofPushMatrix();
+   
+    ofMultMatrix(tabmtx);
+    
+    ofDrawAxis(100);
+    ofEnableLighting();
+    light.enable();
+    
+    ofPushMatrix();
+    ofRotateX(90);
+    ofDrawCylinder(0,52,0,3,100);
+    ofPopMatrix();
+    
+    // can also get global tablet data at any time
     TabletData& data = ofxTablet::tabletData;
-    //ofTranslate(400+data.location[0],400+data.location[1]);
-    ofTranslate(data.absScreen[0]*1900,data.absScreen[1]*1200);
-    ofRotateX(data.tilt[1]*70);
-    ofRotateY(data.tilt[0]*70);
-    float sca=(data.pressure*5);
-    if (sca<1) sca = 1;
-    ofScale(sca,sca,sca);
+    float p= data.pressure*25;
+    if (p<10) p = 10;
+    
+    ofDrawArrow(ofVec3f(0,0,100), ofVec3f(0,0,0), p);
 
-    ofLogo.bind();
-    ofFill();
-    ofSetColor(255);
-    ofDrawBox(100);
-    ofLogo.unbind();
+    ofDisableLighting();
+
+    ofPopMatrix();
+    
+    cam.end();
+    
 }
 
 
@@ -69,20 +76,20 @@ void ofApp::keyReleased(int key){
 
 // get data as soon as it comes in
 void ofApp::tabletMoved(TabletData &data) {
-	// this would be a good place to get data from multiple devices
-	
-    //cout << "tabletMoved tilt " << data.tilt[0];
+    // set up coordinate frame based on tablet data
+    ofVec3f translate = ofVec3f((data.abs_screen[0]-0.5)*gridsize,(data.abs_screen[1]-0.5)*gridsize, 0);
+    ofVec3f tilt = ofVec3f(data.tilt_vec[0], data.tilt_vec[1], data.tilt_vec[2]);
+    ofQuaternion tiltquat = ofQuaternion();
+    tiltquat.makeRotate(ofVec3f(0,0,1), tilt);
+    
+    tabmtx.setRotate(tiltquat);
+    tabmtx.setTranslation(translate);
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y){
-/*
-    // get the most recent tablet data
-	TabletData& data = ofxTablet::tabletData;
-    printf("mouseMoved tilt: %f \n", data.tilt[0]);
- */
-    TabletData& data = ofxTablet::tabletData;
-    //printf("mouseMoved [%d,%d] data [%f,%f] \n", x,y, data.location[0], data.location[1]);
+
 }
 
 //--------------------------------------------------------------
