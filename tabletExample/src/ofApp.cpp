@@ -29,8 +29,8 @@ void ofApp::setup(){
 void ofApp::update(){
     
     // get the most recent data
-	TabletData& data = ofxTablet::tabletData;
-    cout << "update tilt " << data.tilt[0] << endl;
+	//TabletData& data = ofxTablet::tabletData;
+    //cout << "update tilt " << data.tilt[0] << endl;
 
 }
 
@@ -41,7 +41,8 @@ void ofApp::draw(){
     ofFill();
     
     TabletData& data = ofxTablet::tabletData;
-    ofTranslate(400,400);
+    //ofTranslate(400+data.location[0],400+data.location[1]);
+    ofTranslate(data.absScreen[0]*1900,data.absScreen[1]*1200);
     ofRotateX(data.tilt[1]*70);
     ofRotateY(data.tilt[0]*70);
     float sca=(data.pressure*5);
@@ -80,6 +81,8 @@ void ofApp::mouseMoved(int x, int y){
 	TabletData& data = ofxTablet::tabletData;
     printf("mouseMoved tilt: %f \n", data.tilt[0]);
  */
+    TabletData& data = ofxTablet::tabletData;
+    //printf("mouseMoved [%d,%d] data [%f,%f] \n", x,y, data.location[0], data.location[1]);
 }
 
 //--------------------------------------------------------------
