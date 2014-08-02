@@ -39,7 +39,8 @@ void ofApp::draw(){
    
     ofMultMatrix(tabmtx);
     
-    ofDrawAxis(100);
+    ofDrawAxis(30);
+    
     ofEnableLighting();
     light.enable();
     
