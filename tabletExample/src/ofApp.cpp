@@ -49,7 +49,7 @@ void ofApp::draw(){
     ofDrawCylinder(0,52,0,3,100);
     ofPopMatrix();
     
-    // can also get global tablet data at any time
+    // you can also get global tablet data at any time
     TabletData& data = ofxTablet::tabletData;
     float p= data.pressure*25;
     if (p<10) p = 10;
@@ -77,6 +77,7 @@ void ofApp::keyReleased(int key){
 
 // get data as soon as it comes in
 void ofApp::tabletMoved(TabletData &data) {
+    
     // set up coordinate frame based on tablet data
     ofVec3f translate = ofVec3f((data.abs_screen[0]-0.5)*gridsize,(data.abs_screen[1]-0.5)*gridsize, 0);
     ofVec3f tilt = ofVec3f(data.tilt_vec[0], data.tilt_vec[1], data.tilt_vec[2]);

@@ -1,5 +1,8 @@
+// Copyright (c) 2014 Matt Ebb
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "ofxTablet.h"
-#include <iostream>
 
 #ifdef __APPLE__
     #include "tabletCocoa.h"
@@ -9,7 +12,6 @@ ofEvent<TabletData> ofxTablet::tabletEvent;
 TabletData ofxTablet::tabletData;
 
 void ofxTablet::start() {
-
 #ifdef __APPLE__
     // only Mac Cocoa implemented so far
     setupTabletCocoa(tabletData);

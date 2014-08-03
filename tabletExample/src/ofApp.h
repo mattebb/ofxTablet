@@ -9,7 +9,7 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		
-        void tabletMoved(TabletData &data);
+        void tabletMoved(TabletData &data);  // for receiving tablet events directly
     
 		void keyPressed(int key);
 		void keyReleased(int key);
