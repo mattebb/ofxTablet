@@ -2,7 +2,7 @@
 
 Addon for OpenFrameworks to read tablet (eg. Wacom) sensor data such as pressure and tilt.
 
-If the code looks organised in weird ways, it's because I had to jump through a few hoops to get Cocoa (obj-C) to play nicely in the c++ application. I'm not very experienced with OF, nor C++ or obj-C so if you have suggestions, please feel free to fork/ make a pull request. It works fine for my purposes though.
+It's pulling the embedded tablet data from Cocoa events, and as such the code is structured a bit weirdly to get obj-C to play nicely in the C++ OF application. I'm not very experienced with OF, nor C++ or obj-C so if you have suggestions, please feel free to fork/ make a pull request. It works fine for my purposes at the moment anyway!
 
 Known Issues
 ------------
