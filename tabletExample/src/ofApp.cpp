@@ -79,9 +79,9 @@ void ofApp::keyReleased(int key){
 void ofApp::tabletMoved(TabletData &data) {
     
     // set up coordinate frame based on tablet data
-    ofVec3f translate = ofVec3f((data.abs_screen[0]-0.5)*gridsize,(data.abs_screen[1]-0.5)*gridsize, 0);
-    ofVec3f tilt = ofVec3f(data.tilt_vec[0], data.tilt_vec[1], data.tilt_vec[2]);
-    ofQuaternion tiltquat = ofQuaternion();
+    ofVec3f translate((data.abs_screen[0]-0.5)*gridsize,(data.abs_screen[1]-0.5)*gridsize, 0);
+    ofVec3f tilt(data.tilt_vec[0], data.tilt_vec[1], data.tilt_vec[2]);
+    ofQuaternion tiltquat;
     tiltquat.makeRotate(ofVec3f(0,0,1), tilt);
     
     tabmtx.setRotate(tiltquat);
